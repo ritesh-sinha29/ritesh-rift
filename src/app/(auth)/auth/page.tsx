@@ -55,7 +55,7 @@ export default async function LoginPage() {
                 </span>
               </h1>
               <p className="text-base text-neutral-400 leading-relaxed max-w-md">
-                WeKraft turns your GitHub activity into actionable insights.
+                Gitpilot turns your GitHub activity into actionable insights.
                 From collaboration To deployments — everything is tracked and
                 automated.
               </p>
@@ -108,11 +108,11 @@ export default async function LoginPage() {
 
                 <div className="space-y-7 text-center">
                   <div className="flex items-center justify-center">
-                    <Image src="/logo.svg" alt="Logo" width={40} height={40} />
+                    <Image src="/logo1.svg" alt="Logo" width={40} height={40} />
                   </div>
                   <div className="space-y-2">
                     <h2 className="text-2xl font-semibold tracking-tight">
-                      Login to <span className="font-pop">WeKraft</span>
+                      Login to <span className="font-pop">Gitpilot</span>
                     </h2>
                     <p className="text-[13px] text-neutral-500">
                       Start Collaboration by Continuing With GitHub
@@ -140,7 +140,7 @@ export default async function LoginPage() {
                   </div>
 
                   <p className="text-[11px] text-neutral-500 leading-relaxed text-balance">
-                    By joining, you agree to WeKraft
+                    By joining, you agree to Gitpilot
                     <Link
                       href="#"
                       className="text-neutral-300 hover:text-white underline underline-offset-4 mx-1"
@@ -162,7 +162,7 @@ export default async function LoginPage() {
               {/* Bottom Card Footer */}
               <div className="text-center bg-linear-to-br from-gray-800 to-black w-fit mx-auto py-2 px-4 rounded-full -mb-10">
                 <p className="text-xs italic hover:underline cursor-pointer">
-                  Star WeKraft on GitHub{" "}
+                  Star Gitpilot on GitHub{" "}
                   <LucideGithub className="inline ml-2" size={20} />
                 </p>
               </div>
