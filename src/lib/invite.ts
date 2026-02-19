@@ -13,7 +13,7 @@ export function generateInviteCode(): string {
 }
 
 export function getInviteLink(inviteCode: string): string {
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000";
+ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   return `${baseUrl}/invite/${inviteCode}`;
 }
 
