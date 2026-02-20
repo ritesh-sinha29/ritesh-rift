@@ -241,7 +241,7 @@ const MyProjectId = () => {
 
                   {/* INVITE DIALOG */}
                   <Dialog open={isInviteOpen} onOpenChange={setIsInviteOpen}>
-                    <DialogContent className="w-full min-w-md">
+                    <DialogContent className="w-full min-w-md max-w-xl">
                       <DialogHeader>
                         <DialogTitle className="text-lg">
                           Collaborate with others{" "}

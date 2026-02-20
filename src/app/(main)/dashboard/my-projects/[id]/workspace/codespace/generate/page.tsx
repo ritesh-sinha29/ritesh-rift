@@ -4,7 +4,7 @@ import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import ChatSection from "@/modules/generate/ChatSection";
 import WebDesignPreview from "@/modules/generate/WebDesignPreview";
-// import ElementSetting from "@/modules/generate/ElementSetting";
+import ElementSetting from "@/modules/generate/ElementSetting";
 import { useParams } from "next/navigation";
 import { Id } from "../../../../../../../../../convex/_generated/dataModel";
 
@@ -76,10 +76,10 @@ const GeneratePage = () => {
           preferredSize={300}
         >
           <div className="w-full h-full bg-muted/30 border-l border-border">
-            {/* <ElementSetting
+            <ElementSetting
               selectedElement={selectedElement}
               clearSelection={() => setSelectedElement(null)}
-            /> */}
+            />
           </div>
         </Allotment.Pane>
       </Allotment>

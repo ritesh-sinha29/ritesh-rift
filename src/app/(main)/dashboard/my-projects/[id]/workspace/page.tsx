@@ -18,6 +18,7 @@ import { Id } from "../../../../../../../convex/_generated/dataModel";
 import { api } from "../../../../../../../convex/_generated/api";
 import { Orb } from "@/components/elevenLabs/Orb";
 import DialogOrb from "./_components/DialogOrb";
+import ProjectDetailsCard from "./_components/ProjectDetailsCard";
 import { toast } from "sonner";
 import { useQuery } from "convex/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -92,6 +93,30 @@ const ProjectWorkspace = () => {
   });
   const projectName = project?.projectName;
   const repoId = project?.repositoryId;
+  const workspaceStats = useQuery(api.projects.getWorkspaceStats, {
+    repoId: repoId as Id<"repositories"> | undefined,
+  });
+  const workspaceIssues = useQuery(api.projects.getWorkspaceIssues, {
+    repoId: repoId as Id<"repositories"> | undefined,
+  });
+  const workspaceReviews = useQuery(api.projects.getWorkspaceReviews, {
+    repoId: repoId as Id<"repositories"> | undefined,
+  });
+
+  const skillColorMap: Record<string, string> = {
+    html: "bg-orange-500/20 text-orange-600 border-orange-500/30",
+    css: "bg-blue-500/20 text-blue-600 border-blue-500/30",
+    javascript: "bg-yellow-400/20 text-yellow-700 border-yellow-400/40",
+    typescript: "bg-blue-600/20 text-blue-500 border-blue-600/40",
+    python: "bg-green-500/20 text-green-700 border-green-500/30",
+    react: "bg-cyan-500/20 text-cyan-700 border-cyan-500/30",
+    node: "bg-lime-500/20 text-lime-700 border-lime-500/30",
+    default: "bg-muted text-muted-foreground border-border",
+  };
+
+  const getSkillStyle = (skill: string) => {
+    return skillColorMap[skill.toLowerCase()] || skillColorMap.default;
+  };
 
   // console.log("PROJECT ID FRONTEND: ", projectId);
   // console.log("REPO ID FRONTEND: ", repoId);
@@ -208,21 +233,21 @@ const ProjectWorkspace = () => {
               </div>
 
               {/* Project Members */}
-              <div className="flex flex-col gap-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              {/* <div className="flex flex-col gap-3">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center justify-center gap-2">
                   <LuUsers className="size-4" /> Team Members
                 </h3>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap justify-center gap-4">
                   {members?.map((member) => (
                     <div
                       key={member._id}
-                      className="flex items-center gap-3 bg-muted/30 p-2 rounded-xl border border-border/50 hover:bg-muted/50 transition-colors"
+                      className="flex items-center justify-center gap-3 p-2 rounded-xl border bg-white/"
                     >
                       <Avatar size="default" className="border">
                         <AvatarImage src={member.userImage} />
                         <AvatarFallback>{member.userName?.[0]}</AvatarFallback>
                       </Avatar>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col ">
                         <span className="text-sm font-medium leading-none">
                           {member.userName}
                         </span>
@@ -230,8 +255,8 @@ const ProjectWorkspace = () => {
                           {member.skills?.slice(0, 3).map((skill, i) => (
                             <Badge
                               key={i}
-                              variant="secondary"
-                              className="text-[10px] px-1 rounded-sm h-4"
+                              variant="outline"
+                              className={`text-[10px] px-1 rounded-sm h-4 border ${getSkillStyle(skill)}`}
                             >
                               {skill}
                             </Badge>
@@ -246,29 +271,16 @@ const ProjectWorkspace = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
-              {/* Project Details (Timeline & Overview) */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col gap-3 p-5 rounded-2xl border bg-card/50 shadow-sm">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <LuClock3 className="size-4 text-blue-500" /> Project
-                    Timeline
-                  </h3>
-                  <p className="text-sm leading-relaxed text-foreground/80">
-                    {project_details?.projectTimeline || "No timeline defined."}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 p-5 rounded-2xl border bg-card/50 shadow-sm">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                    <LuLayers2 className="size-4 text-emerald-500" /> Project
-                    Overview
-                  </h3>
-                  <p className="text-sm leading-relaxed text-foreground/80">
-                    {project_details?.projectOverview ||
-                      "No overview available."}
-                  </p>
-                </div>
+              {/* Project Details — CI/CD Pipeline */}
+              <div className="w-full px-8">
+                <ProjectDetailsCard
+                  projectTimeline={project_details?.projectTimeline}
+                  stats={workspaceStats ?? null}
+                  issues={workspaceIssues ?? []}
+                  reviews={workspaceReviews ?? []}
+                />
               </div>
             </div>
           </motion.div>

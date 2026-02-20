@@ -871,6 +871,7 @@ export const getProjectTeamSkills = query({
       const user = await ctx.db.get(userId as Id<"users">);
       if (user) {
         teamSkills.push({
+          userId: user._id,
           userName: user.name,
           skills: user.skills || [],
         });
@@ -899,3 +900,74 @@ export const getProject_detailTool = query({
     };
   }
 })
+
+// ------------------------------------------------------
+export const getWorkspaceStats = query({
+  args: { repoId: v.optional(v.id("repositories")) },
+  handler: async (ctx, args) => {
+    if (!args.repoId) return null;
+
+    const reviews = await ctx.db
+      .query("reviews")
+      .withIndex("by_repo", (q) => q.eq("repoId", args.repoId!))
+      .collect();
+
+    const issues = await ctx.db
+      .query("issues")
+      .withIndex("by_repo", (q) => q.eq("repoId", args.repoId!))
+      .collect();
+
+    const totalReviews = reviews.length;
+    const passedReviews = reviews.filter(
+      (r) => r.reviewStatus === "completed" && !r.ctiticalIssueFound
+    ).length;
+
+    const assignedIssues = issues.filter((i) => i.issueStatus === "assigned").length;
+    const ignoredIssues = issues.filter((i) => i.issueStatus === "ignored").length;
+
+    return {
+      totalReviews,
+      passedReviews,
+      assignedIssues,
+      ignoredIssues,
+    };
+  },
+});
+
+// ── Get all issues for the workspace pipeline view ──
+export const getWorkspaceIssues = query({
+  args: { repoId: v.optional(v.id("repositories")) },
+  handler: async (ctx, args) => {
+    if (!args.repoId) return [];
+    const issues = await ctx.db
+      .query("issues")
+      .withIndex("by_repo", (q) => q.eq("repoId", args.repoId!))
+      .collect();
+    // Enrich with assigned user info
+    const enriched = await Promise.all(
+      issues.map(async (issue) => {
+        let assignedUserName: string | undefined;
+        let assignedUserImage: string | undefined;
+        if (issue.issueAssignedTo) {
+          const user = await ctx.db.get(issue.issueAssignedTo);
+          assignedUserName = user?.name;
+          assignedUserImage = user?.imageUrl;
+        }
+        return { ...issue, assignedUserName, assignedUserImage };
+      })
+    );
+    return enriched;
+  },
+});
+
+// ── Get all reviews for the workspace pipeline view ──
+export const getWorkspaceReviews = query({
+  args: { repoId: v.optional(v.id("repositories")) },
+  handler: async (ctx, args) => {
+    if (!args.repoId) return [];
+    return await ctx.db
+      .query("reviews")
+      .withIndex("by_repo", (q) => q.eq("repoId", args.repoId!))
+      .collect();
+  },
+});

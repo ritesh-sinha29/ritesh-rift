@@ -107,7 +107,7 @@ const DialogOrb = ({ isOrbOpen, setIsOrbOpen, repoId }: DialogOrbProps) => {
 
   return (
     <Dialog open={isOrbOpen} onOpenChange={setIsOrbOpen}>
-      <DialogContent className="sm:max-w-2xl sm:h-[580px] dark:bg-gray-950">
+      <DialogContent className="sm:max-w-2xl sm:h-[600px] dark:bg-gray-950">
         <DialogHeader className="p-0!">
           <DialogTitle></DialogTitle>
           <div className=" flex items-center justify-center">
@@ -279,18 +279,6 @@ const DialogOrb = ({ isOrbOpen, setIsOrbOpen, repoId }: DialogOrbProps) => {
             onKeyDown={async (event) => {
               if (event.key === "Enter") {
                 handleSendMessage();
-              }
-            }}
-          />
-          <VoiceButton
-            label="Press to speak"
-            trailing="⌥Space"
-            state={voiceState}
-            onPress={() => {
-              if (voiceState === "idle") {
-                setVoiceState("recording");
-              } else {
-                setVoiceState("success");
               }
             }}
           />

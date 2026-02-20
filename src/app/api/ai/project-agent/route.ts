@@ -175,8 +175,8 @@ export async function POST(req: Request) {
 - project Name: ${projectName}
 
 ## TASKS:
-Task 1: Welcome user and ask for their project details and timeline.
-Task 2: Use tools to fetch repo structure. Ask user what additional features they want.
+Task 1: use Tools to fetch repo structure and understand the core of user project and ask what he wants more in it .
+Task 2: Ask user timeline for his project.
 Task 3: Fetch team member skills. Ask if they want features matched to team skills.
 Task 4: Generate structured project features in proper markdown format.
 Task 5: On confirmation, update database. with  projectTimeline, projectOverview, projectFeaturesList,
@@ -189,7 +189,9 @@ Task 5: On confirmation, update database. with  projectTimeline, projectOverview
 - projectOverview should be well written description of the project.
 - projectFeaturesList should be well written list of features.
 - never ask all details at once to users. Always ask one detail at a time.
-- Talk with energy and confidence.`;
+- Talk with energy and confidence.
+- try to understand user requirement about project fast and generate project details with understanding team skills.
+- Dont keep conversation long , make it feel agentic ask for feeback and update fast.`;
 
     const result = streamText({
       model: google("gemini-3-flash-preview"),

@@ -154,13 +154,13 @@ const DashboardPage = () => {
         {/* DEMO FAKE DATA IDK */}
         <Card className="relative  min-w-[260px] bg-linear-to-br from-blue-600/60 via-indigo-500/30 to-transparent">
           <CardHeader>
-            <CardTitle>Demo Fake Data </CardTitle>
+            <CardTitle>Contributions Made</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
               <div className="flex flex-col">
                 <p className="text-2xl font-semibold">27</p>
-                <p className="text-sm text-muted-foreground">Its Fake</p>
+                <p className="text-sm text-muted-foreground">In Wekraft</p>
               </div>
               <Image
                 src="/ca1.png"
